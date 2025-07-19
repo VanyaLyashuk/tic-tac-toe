@@ -5,7 +5,12 @@ import Log from "./components/log/Log";
 import Player from "./components/player/Player";
 import { WINNING_COMBINATIONS } from "./winning-combinations.js";
 
-const initialGameBoard = [
+const PLAYERS = {
+  X: "Player 1",
+  O: "Player 2",
+};
+
+const INITIAL_GAME_BOARD = [
   [null, null, null],
   [null, null, null],
   [null, null, null],
@@ -44,16 +49,8 @@ function deriveWinner(gameBoard, players) {
   return winner;
 }
 
-function App() {
-  const [gameTurns, setGameTurns] = useState([]);
-  const [players, setPlayers] = useState({
-    X: "Player 1",
-    O: "Player 2",
-  });
-
-  const activePlayer = deriveActivePlayer(gameTurns);
-
-  let gameBoard = [...initialGameBoard.map((arr) => [...arr])];
+function deriveGameBoard(gameTurns) {
+  let gameBoard = [...INITIAL_GAME_BOARD.map((arr) => [...arr])];
 
   for (const gameTurn of gameTurns) {
     const { square, player } = gameTurn;
@@ -62,6 +59,15 @@ function App() {
     gameBoard[row][col] = player;
   }
 
+  return gameBoard;
+}
+
+function App() {
+  const [gameTurns, setGameTurns] = useState([]);
+  const [players, setPlayers] = useState(PLAYERS);
+
+  const gameBoard = deriveGameBoard(gameTurns);
+  const activePlayer = deriveActivePlayer(gameTurns);
   const winner = deriveWinner(gameBoard, players);
   const hasDraw = gameTurns.length === 9 && !winner;
 
@@ -94,13 +100,13 @@ function App() {
       <div id="game-container">
         <ol id="players" className="highlight-player">
           <Player
-            initialName="Player 1"
+            initialName={PLAYERS.X}
             symbol="X"
             isActive={activePlayer === "X"}
             onPlayerNameChange={handlePlayerNameChange}
           />
           <Player
-            initialName="Player 2"
+            initialName={PLAYERS.O}
             symbol="O"
             isActive={activePlayer === "O"}
             onPlayerNameChange={handlePlayerNameChange}
