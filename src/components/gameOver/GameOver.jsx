@@ -1,5 +1,5 @@
 export default function GameOver(props) {
-  const { winner } = props;
+  const { winner, onGameRestart } = props;
 
   return (
     <div id="game-over">
@@ -7,7 +7,9 @@ export default function GameOver(props) {
       {winner && <p>{winner} won!</p>}
       {!winner && <p>It's a draw!</p>}
       <p>
-        <button type="button">Restart</button>
+        <button onClick={onGameRestart} type="button">
+          Restart
+        </button>
       </p>
     </div>
   );
