@@ -1,20 +1,5 @@
-const initialGameBoard = [
-  [null, null, null],
-  [null, null, null],
-  [null, null, null],
-];
-
 export default function GameBoard(props) {
-  const { gameTurns, onSelectSquare } = props;
-
-  let gameBoard = initialGameBoard;
-
-  for (const gameTurn of gameTurns) {
-    const { square, player } = gameTurn;
-    const { row, col } = square;
-
-    gameBoard[row][col] = player;
-  }
+  const { gameBoard, onSelectSquare } = props;
 
   return (
     <ol id="game-board">
